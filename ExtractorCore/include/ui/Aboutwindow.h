@@ -1,8 +1,8 @@
 #pragma once
+#include "Common.h"
 
 namespace ExtractorCore::UI
 {
-
 	class AboutWindow
 	{
 	public:
