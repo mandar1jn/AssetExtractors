@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <ui/FileBrowser.h>
 #include <ui/MenuBar.h>
+#include <ui/AboutWindow.h>
 
 namespace ExtractorCore
 {
@@ -82,6 +83,7 @@ namespace ExtractorCore
 
             UI::MenuBar::Draw();
             UI::FileBrowser::Draw();
+            UI::AboutWindow::Draw();
 
             for (u32 i = 0; i < drawableComponents.size(); i++)
             {

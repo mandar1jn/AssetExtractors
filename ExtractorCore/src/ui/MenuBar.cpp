@@ -1,4 +1,5 @@
 #include "ui/MenuBar.h"
+#include "ui/Aboutwindow.h"
 #include "imgui.h"
 
 namespace ExtractorCore::UI
@@ -12,6 +13,11 @@ namespace ExtractorCore::UI
 		for (u32 i = 0; i < menus.size(); i++)
 		{
 			menus[i].Draw();
+		}
+
+		if (ImGui::MenuItem("About"))
+		{
+			AboutWindow::shouldDraw = true;
 		}
 
 		ImGui::EndMainMenuBar();
