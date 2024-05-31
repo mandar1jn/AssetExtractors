@@ -3,7 +3,7 @@
 
 namespace ExtractorCore
 {
-	class Archive : ReadableFile
+	class Archive : public ReadableFile
 	{
 	public:
 		Archive(string path);

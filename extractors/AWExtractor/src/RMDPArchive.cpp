@@ -1,6 +1,8 @@
 #include "RMDPArchive.h"
 #include "imgui.h"
 #include <filesystem>
+#include "ui/FilePreviewWindow.h"
+#include "ui/previews/StringPreview.h"
 
 namespace AWExtractor
 {
@@ -209,6 +211,15 @@ namespace AWExtractor
 				while (true)
 				{
 					ImGui::TreeNodeEx(file->name.c_str(), ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+
+					if (ImGui::IsItemClicked() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						this->er.Seek(file->offset, ExtractorCore::SeekDirection::Begin);
+						std::vector<u8> bytes = this->er.ReadBytes(file->size);
+						string data = string(bytes.begin(), bytes.end());
+
+						ExtractorCore::UI::FilePreviewWindow::previews.push_back(std::make_shared<ExtractorCore::UI::Previews::StringPreview>(file->name, data));
+					}
 
 					if (file->nextFile == -1)
 					{

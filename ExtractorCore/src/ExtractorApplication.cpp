@@ -10,6 +10,7 @@
 #include <ui/FileBrowser.h>
 #include <ui/MenuBar.h>
 #include <ui/AboutWindow.h>
+#include <ui/FilePreviewWindow.h>
 
 namespace ExtractorCore
 {
@@ -84,6 +85,7 @@ namespace ExtractorCore
             UI::MenuBar::Draw();
             UI::FileBrowser::Draw();
             UI::AboutWindow::Draw();
+            UI::FilePreviewWindow::Draw();
 
             for (u32 i = 0; i < drawableComponents.size(); i++)
             {
