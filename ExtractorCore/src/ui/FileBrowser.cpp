@@ -11,7 +11,9 @@ namespace ExtractorCore::UI
 		{
 			for (u32 i = 0; i < archives.size(); i++)
 			{
+				ImGui::PushID(archives[i].get());
 				archives[i]->Draw();
+				ImGui::PopID();
 			}
 		}
 
