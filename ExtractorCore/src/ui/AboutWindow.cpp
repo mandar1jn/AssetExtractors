@@ -4,6 +4,7 @@
 namespace ExtractorCore::UI
 {
 	bool AboutWindow::shouldDraw = false;
+	AboutInfo AboutWindow::info = {};
 
 	string license = "The MIT License(MIT)"
 		"\n\n"
@@ -35,8 +36,13 @@ namespace ExtractorCore::UI
 			{
 				if (ImGui::BeginTabBar("AboutTabBar"))
 				{
-					if (ImGui::BeginTabItem("INSERT TOOL NAME"))
+					if (ImGui::BeginTabItem(info.toolName.c_str()))
 					{
+						string githubURL = "https://github.com/mandar1jn/AssetExtractors/tree/master/extractors/" + info.toolName;
+
+
+						ImGui::Text(githubURL.c_str());
+
 						ImGui::EndTabItem();
 					}
 					if (ImGui::BeginTabItem("License"))

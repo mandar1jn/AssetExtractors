@@ -1,6 +1,7 @@
 #include "ExtractorApplication.h"
 #include "ui/MenuBar.h"
 #include "ui/FileBrowser.h"
+#include "ui/Aboutwindow.h"
 #include "PortableFileDialogs.h"
 #include "RMDPArchive.h"
 
@@ -31,9 +32,19 @@ static void RegisterMenuBar()
 	UI::MenuBar::AddMenu(fileMenu);
 }
 
+static void SetAboutInfo()
+{
+	ExtractorCore::UI::AboutInfo info = {};
+
+	info.toolName = "AWExtractor";
+
+	ExtractorCore::UI::AboutWindow::info = info;
+}
+
 int main(char argc, char** argv)
 {
 	RegisterMenuBar();
+	SetAboutInfo();
 
 	application.Run(argc, argv);
 
