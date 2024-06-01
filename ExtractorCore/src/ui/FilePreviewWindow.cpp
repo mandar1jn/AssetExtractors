@@ -5,6 +5,7 @@ namespace ExtractorCore::UI
 {
 
 	std::vector<std::shared_ptr<FilePreview>> FilePreviewWindow::previews = std::vector<std::shared_ptr<FilePreview>>();
+	std::vector<u8> open = std::vector<u8>();
 
 	void FilePreviewWindow::Draw()
 	{
@@ -14,17 +15,31 @@ namespace ExtractorCore::UI
 
 			if (ImGui::BeginTabBar("PreviewTabBar", ImGuiTabBarFlags_Reorderable))
 			{
-				//TODO: allow the files to be closed
-				for (u32 i = 0; i < previews.size(); i++)
+
+				if (previews.size() != 0)
 				{
-					ImGui::PushID(previews[i].get());
-					bool open = true;
-					if (ImGui::BeginTabItem(previews[i]->fileName.c_str(), &open))
+					open.clear();
+
+					open.resize(previews.size(), true);
+
+					for (u32 i = 0; i < previews.size(); i++)
 					{
-						previews[i]->Draw();
-						ImGui::EndTabItem();
+						ImGui::PushID(previews[i].get());
+						if (ImGui::BeginTabItem(previews[i]->fileName.c_str(), (bool*)&open[i]))
+						{
+							previews[i]->Draw();
+							ImGui::EndTabItem();
+						}
+						ImGui::PopID();
 					}
-					ImGui::PopID();
+
+					for (s32 i = previews.size() - 1; i >= 0; --i)
+					{
+						if ((bool)open[i] != true)
+						{
+							previews.erase(previews.begin() + i);
+						}
+					}
 				}
 
 				ImGui::EndTabBar();
