@@ -10,6 +10,6 @@ namespace ExtractorCore::UI::Previews
 
 	void StringPreview::Draw()
 	{
-		ImGui::TextWrapped(data.c_str());
+		ImGui::TextUnformatted(data.c_str());
 	}
 }
