@@ -22,6 +22,7 @@ namespace ExtractorCore
 	class EndianReader
 	{
 	public:
+		EndianReader(std::vector<u8> data, Endianness endianness = Endianness::Little);
 		EndianReader(std::string filePath, Endianness endianness = Endianness::Little);
 
 		void SetEndianness(Endianness endianness);
@@ -45,7 +46,7 @@ namespace ExtractorCore
 
 		float ReadFloat();
 
-		std::vector<u8> ReadBytes(u32 count);
+		std::vector<u8> ReadBytes(s64 count);
 
 		std::string ReadNullTerminatedString();
 		std::string ReadString();
@@ -59,7 +60,7 @@ namespace ExtractorCore
 			return *(T*)ReadBytes(sizeof(T)).data();
 		}
 
-		std::ifstream stream;
+		std::unique_ptr<std::istream> stream;
 		Endianness endianness;
 	};
 }

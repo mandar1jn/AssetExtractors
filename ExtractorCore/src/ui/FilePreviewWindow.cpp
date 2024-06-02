@@ -33,7 +33,7 @@ namespace ExtractorCore::UI
 						ImGui::PopID();
 					}
 
-					for (s32 i = previews.size() - 1; i >= 0; --i)
+					for (s64 i = previews.size() - 1; i >= 0; --i)
 					{
 						if ((bool)open[i] != true)
 						{

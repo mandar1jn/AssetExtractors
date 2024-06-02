@@ -8,12 +8,12 @@ namespace ExtractorCore::UI::Previews
 	class StringPreview : public FilePreview
 	{
 	public:
-		StringPreview(string fileName, string data);
+		StringPreview(string fileName, std::shared_ptr<ExtractorCore::EndianReader> er);
 
 		void Draw() override;
 
 	private:
-		string data;
+		string stringData;
 	};
 
 }

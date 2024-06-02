@@ -1,11 +1,18 @@
 #include "EndianReader.h"
+#include <sstream>
 
 namespace ExtractorCore
 {
+	EndianReader::EndianReader(std::vector<u8> data, Endianness endianness)
+	{
+		string str(data.begin(), data.end());
+		stream = std::make_unique<std::istringstream>(str);
+		this->endianness = endianness;
+	}
 
 	EndianReader::EndianReader(std::string filePath, Endianness endianness)
 	{
-		stream = std::ifstream(filePath, std::ios_base::binary | std::ios_base::in);
+		stream = std::make_unique<std::ifstream>(filePath, std::ios_base::binary | std::ios_base::in);
 		this->endianness = endianness;
 	}
 
@@ -16,7 +23,7 @@ namespace ExtractorCore
 
 	void EndianReader::Seek(s64 position, SeekDirection direction)
 	{
-		stream.seekg(position, direction);
+		stream->seekg(position, direction);
 	}
 
 	void EndianReader::Skip(s32 skipAmount)
@@ -30,7 +37,7 @@ namespace ExtractorCore
 
 	std::streampos EndianReader::GetPosition()
 	{
-		return stream.tellg();
+		return stream->tellg();
 	}
 
 	std::streampos EndianReader::GetSize()
@@ -44,20 +51,20 @@ namespace ExtractorCore
 
 	bool EndianReader::ReadBool()
 	{
-		return stream.get() > 0;
+		return stream->get() > 0;
 	}
 
 	u8 EndianReader::ReadU8()
 	{
 		u8 value = 0;
-		stream.read((char*)&value, 1);
+		stream->read((char*)&value, 1);
 		return value;
 	}
 
 	u16 EndianReader::ReadU16()
 	{
 		u16 value = 0;
-		stream.read((char*)&value, 2);
+		stream->read((char*)&value, 2);
 
 		if (endianness == Endianness::Big)
 		{
@@ -70,7 +77,7 @@ namespace ExtractorCore
 	u32 EndianReader::ReadU32()
 	{
 		u32 value = 0;
-		stream.read((char*)&value, 4);
+		stream->read((char*)&value, 4);
 
 		if (endianness == Endianness::Big)
 		{
@@ -83,7 +90,7 @@ namespace ExtractorCore
 	s32 EndianReader::ReadS32()
 	{
 		s32 value = 0;
-		stream.read((char*)&value, 4);
+		stream->read((char*)&value, 4);
 
 		if (endianness == Endianness::Big)
 		{
@@ -96,7 +103,7 @@ namespace ExtractorCore
 	u64 EndianReader::ReadU64()
 	{
 		u64 value = 0;
-		stream.read((char*)&value, 8);
+		stream->read((char*)&value, 8);
 
 		if (endianness == Endianness::Big)
 		{
@@ -109,7 +116,7 @@ namespace ExtractorCore
 	s64 EndianReader::ReadS64()
 	{
 		s64 value = 0;
-		stream.read((char*)&value, 8);
+		stream->read((char*)&value, 8);
 
 		if (endianness == Endianness::Big)
 		{
@@ -122,7 +129,7 @@ namespace ExtractorCore
 	float EndianReader::ReadFloat()
 	{
 		float value = 0;
-		stream.read((char*)&value, 4);
+		stream->read((char*)&value, 4);
 
 		if (endianness == Endianness::Big)
 		{
@@ -132,11 +139,11 @@ namespace ExtractorCore
 		return value;
 	}
 
-	std::vector<u8> EndianReader::ReadBytes(u32 count)
+	std::vector<u8> EndianReader::ReadBytes(s64 count)
 	{
 		std::vector<uint8_t> bytes = std::vector<u8>();
 		bytes.resize(count);
-		stream.read((char*)bytes.data(), count);
+		stream->read((char*)bytes.data(), count);
 		return bytes;
 	}
 
@@ -147,7 +154,7 @@ namespace ExtractorCore
 
 		while (true)
 		{
-			character = stream.get();
+			character = stream->get();
 
 			if (character == 0)
 				break;
@@ -169,7 +176,7 @@ namespace ExtractorCore
 
 		for (u32 i = 0; i < length; i++)
 		{
-			char character = stream.get();
+			char character = stream->get();
 			result += character;
 		}
 		return result;

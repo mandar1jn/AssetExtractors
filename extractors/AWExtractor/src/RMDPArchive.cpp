@@ -3,6 +3,7 @@
 #include <filesystem>
 #include "ui/FilePreviewWindow.h"
 #include "ui/previews/StringPreview.h"
+#include "previews/StringTablePreview.h"
 
 namespace AWExtractor
 {
@@ -216,9 +217,15 @@ namespace AWExtractor
 					{
 						this->er.Seek(file->offset, ExtractorCore::SeekDirection::Begin);
 						std::vector<u8> bytes = this->er.ReadBytes(file->size);
-						string data = string(bytes.begin(), bytes.end());
 
-						ExtractorCore::UI::FilePreviewWindow::previews.push_back(std::make_shared<ExtractorCore::UI::Previews::StringPreview>(file->name, data));
+						if (file->name == "string_table.bin")
+						{
+							ExtractorCore::UI::FilePreviewWindow::previews.push_back(std::make_shared<AWExtractor::UI::StringTablePreview>(file->name, std::make_shared<ExtractorCore::EndianReader>(bytes)));
+						}
+						else
+						{
+							ExtractorCore::UI::FilePreviewWindow::previews.push_back(std::make_shared<ExtractorCore::UI::Previews::StringPreview>(file->name, std::make_shared<ExtractorCore::EndianReader>(bytes)));
+						}
 					}
 
 					if (file->nextFile == -1)

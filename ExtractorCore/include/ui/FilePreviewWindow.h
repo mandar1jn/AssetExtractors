@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <EndianReader.h>
 
 namespace ExtractorCore::UI
 {
@@ -10,11 +11,12 @@ namespace ExtractorCore::UI
 	class FilePreview
 	{
 	public:
-		FilePreview(string fileName) : fileName(fileName) {}
+		FilePreview(string fileName, std::shared_ptr<ExtractorCore::EndianReader> er) : fileName(fileName), er(er) {}
 
 		virtual void Draw() = 0;
 		
 		string fileName;
+		std::shared_ptr<ExtractorCore::EndianReader> er;
 	};
 
 	class FilePreviewWindow
