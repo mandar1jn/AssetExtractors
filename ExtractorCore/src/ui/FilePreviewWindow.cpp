@@ -44,10 +44,9 @@ namespace ExtractorCore::UI
 
 				ImGui::EndTabBar();
 			}
-
-			ImGui::End();
 		}
 
+		ImGui::End();
 	}
 
 }

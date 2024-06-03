@@ -4,6 +4,7 @@
 #include "ui/FilePreviewWindow.h"
 #include "ui/previews/StringPreview.h"
 #include "previews/StringTablePreview.h"
+#include "previews/ImagePreview.h"
 
 namespace AWExtractor
 {
@@ -183,6 +184,7 @@ namespace AWExtractor
 		FolderEntry* folder = &index.folders[folderIndex];
 
 		bool open = false;
+		bool skipped = false;
 
 		
 		if (folderIndex == 0 && !index.pathPrefix.empty() && folder->name.empty()) [[unlikely]]
@@ -191,7 +193,8 @@ namespace AWExtractor
 		}
 		else if (folder->name.empty()) [[unlikely]]
 		{
-			throw "unhandled";
+			open = true;
+			skipped = true;
 		}
 		else [[likely]]
 		{
@@ -222,6 +225,10 @@ namespace AWExtractor
 						{
 							ExtractorCore::UI::FilePreviewWindow::previews.push_back(std::make_shared<AWExtractor::UI::StringTablePreview>(file->name, std::make_shared<ExtractorCore::EndianReader>(bytes)));
 						}
+						else if (file->name.ends_with(".tex"))
+						{
+							ExtractorCore::UI::FilePreviewWindow::previews.push_back(std::make_shared<AWExtractor::UI::ImagePreview>(file->name, std::make_shared<ExtractorCore::EndianReader>(bytes)));
+						}
 						else
 						{
 							ExtractorCore::UI::FilePreviewWindow::previews.push_back(std::make_shared<ExtractorCore::UI::Previews::StringPreview>(file->name, std::make_shared<ExtractorCore::EndianReader>(bytes)));
@@ -237,7 +244,10 @@ namespace AWExtractor
 				}
 			}
 
-			ImGui::TreePop();
+			if (!skipped)
+			{
+				ImGui::TreePop();
+			}
 		}
 
 		if (folder->nextNeighbourFolder != -1)
