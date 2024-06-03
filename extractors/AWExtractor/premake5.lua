@@ -13,7 +13,9 @@ group "AWExtractor"
 			"../../externals/imgui",
 			"../../externals/imgui/backends",
 			"../../externals/glad/include",
-			"../../ExtractorCore/include"
+			"../../ExtractorCore/include",
+			"../../externals/gli",
+			"../../externals/gli/external"
 		}
 
 		filter "configurations:Debug"
